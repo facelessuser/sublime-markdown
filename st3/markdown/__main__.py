@@ -1,7 +1,23 @@
+# -*- coding: utf-8 -*-
 """
-COMMAND-LINE SPECIFIC STUFF
-=============================================================================
+Python Markdown
 
+A Python implementation of John Gruber's Markdown.
+
+Documentation: https://python-markdown.github.io/
+GitHub: https://github.com/Python-Markdown/markdown/
+PyPI: https://pypi.org/project/Markdown/
+
+Started by Manfred Stienstra (http://www.dwerg.net/).
+Maintained for a few years by Yuri Takhteyev (http://www.freewisdom.org).
+Currently maintained by Waylan Limberg (https://github.com/waylan),
+Dmitry Shachnev (https://github.com/mitya57) and Isaac Muse (https://github.com/facelessuser).
+
+Copyright 2007-2018 The Python Markdown Project (v. 1.7 and later)
+Copyright 2004, 2005, 2006 Yuri Takhteyev (v. 0.2-1.6b)
+Copyright 2004 Manfred Stienstra (the original version)
+
+License: BSD (see LICENSE.md for details).
 """
 
 import sys
@@ -28,7 +44,7 @@ def parse_options(args=None, values=None):
        (STDIN is assumed if no INPUTFILE is given)"""
     desc = "A Python implementation of John Gruber's Markdown. " \
            "https://Python-Markdown.github.io/"
-    ver = "%%prog %s" % markdown.version
+    ver = "%%prog %s" % markdown.__version__
 
     parser = optparse.OptionParser(usage=usage, description=desc, version=ver)
     parser.add_option("-f", "--file", dest="filename", default=None,
@@ -36,13 +52,9 @@ def parse_options(args=None, values=None):
                       metavar="OUTPUT_FILE")
     parser.add_option("-e", "--encoding", dest="encoding",
                       help="Encoding for input and output files.",)
-    parser.add_option("-s", "--safe", dest="safe", default=False,
-                      metavar="SAFE_MODE",
-                      help="Deprecated! 'replace', 'remove' or 'escape' HTML "
-                      "tags in input")
     parser.add_option("-o", "--output_format", dest="output_format",
-                      default='xhtml1', metavar="OUTPUT_FORMAT",
-                      help="'xhtml1' (default), 'html4' or 'html5'.")
+                      default='xhtml', metavar="OUTPUT_FORMAT",
+                      help="Use output format 'xhtml' (default) or 'html'.")
     parser.add_option("-n", "--no_lazy_ol", dest="lazy_ol",
                       action='store_false', default=True,
                       help="Observe number of first item of ordered lists.")
@@ -101,10 +113,6 @@ def parse_options(args=None, values=None):
         'output_format': options.output_format,
         'lazy_ol': options.lazy_ol
     }
-
-    if options.safe:
-        # Avoid deprecation warning if user didn't set option
-        opts['safe_mode'] = options.safe
 
     return opts, options.verbose
 
