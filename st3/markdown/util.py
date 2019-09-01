@@ -33,6 +33,7 @@ Python 3 Stuff
 =============================================================================
 """
 PY3 = sys.version_info[0] == 3
+PY37 = (3, 7) <= sys.version_info
 
 if PY3:  # pragma: no cover
     string_type = str
@@ -113,7 +114,7 @@ AUXILIARY GLOBAL FUNCTIONS
 """
 
 
-def deprecated(message):
+def deprecated(message, stacklevel=2):
     """
     Raise a DeprecationWarning when wrapped function/method is called.
 
@@ -125,7 +126,7 @@ def deprecated(message):
             warnings.warn(
                 "'{}' is deprecated. {}".format(func.__name__, message),
                 category=DeprecationWarning,
-                stacklevel=2
+                stacklevel=stacklevel
             )
             return func(*args, **kwargs)
         return deprecated_func
@@ -385,7 +386,9 @@ class Registry(object):
         if isinstance(key, string_type):
             warnings.warn(
                 'Using setitem to register a processor or pattern is deprecated. '
-                'Use the `register` method instead.', DeprecationWarning
+                'Use the `register` method instead.',
+                DeprecationWarning,
+                stacklevel=2,
             )
             if key in self:
                 # Key already exists, replace without altering priority
@@ -407,7 +410,9 @@ class Registry(object):
             self.deregister(key)
             warnings.warn(
                 'Using del to remove a processor or pattern is deprecated. '
-                'Use the `deregister` method instead.', DeprecationWarning
+                'Use the `deregister` method instead.',
+                DeprecationWarning,
+                stacklevel=2,
             )
         else:
             raise TypeError
@@ -450,5 +455,7 @@ class Registry(object):
         self.register(value, key, priority)
         warnings.warn(
             'Using the add method to register a processor or pattern is deprecated. '
-            'Use the `register` method instead.', DeprecationWarning
+            'Use the `register` method instead.',
+            DeprecationWarning,
+            stacklevel=2,
         )
